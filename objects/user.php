@@ -119,6 +119,8 @@ class User{
 
         $stmt = $this->conn->prepare($sqlQuery);
 
+        $this->id=htmlspecialchars(strip_tags($this->id));
+
         $stmt->bindParam(1, $this->id);
 
         $stmt->execute();
@@ -148,8 +150,8 @@ class User{
         $this->state=htmlspecialchars(strip_tags($this->state));
         $this->country=htmlspecialchars(strip_tags($this->country));
         $this->isactive=htmlspecialchars(strip_tags($this->isactive));
-        $this->createdat=htmlspecialchars(strip_tags($this->createdat));
         $this->isverify=htmlspecialchars(strip_tags($this->isverify));
+        $this->id=htmlspecialchars(strip_tags($this->id));
     
         $stmt->bindParam(":username", $this->username);
         $stmt->bindParam(":fullname", $this->fullname);
@@ -164,8 +166,8 @@ class User{
         $stmt->bindParam(":state", $this->state);
         $stmt->bindParam(":country", $this->country);
         $stmt->bindParam(":isactive", $this->isactive);
-        $stmt->bindParam(":createdat", $this->createdat);
         $stmt->bindParam(":isverify", $this->isverify);
+        $stmt->bindParam(":id", $this->id);
     
         if($stmt->execute()){
            return true;
@@ -188,4 +190,65 @@ class User{
             }
             return false;
     }
+
+    public function isTableExists(){
+
+        $query = "SHOW TABLES";
+ 
+        $stmt = $this->conn->prepare($query);
+ 
+        $stmt->execute();
+
+        $tables = $stmt->fetchAll(PDO::FETCH_NUM);
+ 
+        foreach($tables as $table){
+            if($table[0] == $this->table_name){
+                $flag = 0;
+                break; 
+            }
+        }
+
+        if($flag == 0){
+            
+        }else{
+            
+        }
+
+    }
+
+    public function cretaeTableUser(){
+
+        try{
+            $query = "CREATE TABLE $this->table_name (
+                id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(60),
+                fullname VARCHAR(60),
+                email VARCHAR(50),
+                password VARCHAR(60),
+                isadmin inetger default 0,
+                designation VARCHAR(50),
+                hospital VARCHAR(60),
+                mobile VARCHAR(60),
+                address VARCHAR(50),
+                city VARCHAR(60),
+                state VARCHAR(60),
+                country VARCHAR(50),
+                isactive integer default 1;
+                isverify integer default 0;
+                createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                )";
+              
+                $stmt = $this->conn->prepare($query);
+                
+                if($stmt->execute()){
+                    return true;
+                }
+                return false;
+
+        }catch(PDOException $e) {
+            return false;
+        }
+        
+    }
 }
+
