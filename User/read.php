@@ -11,13 +11,30 @@ $user = new User($db);
 $stmt = $user->getUserList();
 
 if($stmt->rowCount() > 0){
-    
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $userInfo = array();
+    $userInfo["body"] = array();
+    $userInfo["itemCount"] = $stmt->rowCount();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        extract($row);
+
+        $e = array(
+            "user_id" => $user_id,
+            "user_name" => $user_name,
+            "cust_id" => $cust_id,
+            "status" => $status,
+            "user_type" => $user_type,
+            "business_id" => $business_id
+        );
+
+        array_push($userInfo["body"], $e);
+    }
 
     $user_arr=array(
         "status" => true,
         "message" => "User Details!",
-        "data" => $row
+        "data" => $userInfo
     );
 }
 else{
