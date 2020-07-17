@@ -1,10 +1,10 @@
 <?php
 class Database{
  
-    private $host = "localhost";
-    private $db_name = "test";
-    private $username = "root";
-    private $password = "";
+    private $host = "172.17.98.54";
+    private $db_name = "dev_iot_prod ";
+    private $username = "dev_uapp";
+    private $password = "teUC9M@T!DJvd";
     public $conn;
  
     public function getConnection(){
@@ -12,9 +12,9 @@ class Database{
         $this->conn = null;
  
         try{
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn = new PDO("pgsql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->conn->exec("set names utf8");
+            $this->conn->exec();
         }catch(PDOException $exception){
             echo "Connection error: " . $exception->getMessage();
         }

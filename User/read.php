@@ -8,7 +8,7 @@ $db = $database->getConnection();
  
 $user = new User($db);
 
-$stmt = $user->login();
+$stmt = $user->getUserList();
 
 if($stmt->rowCount() > 0){
     
