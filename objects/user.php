@@ -23,6 +23,7 @@ class User{
 
     public function __construct($db){
         $this->conn = $db;
+        ini_set('display_errors', 1);
     }
     
     function signup(){

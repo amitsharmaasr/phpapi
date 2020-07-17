@@ -8,22 +8,23 @@ $db = $database->getConnection();
 
 $user = new User($db);
 
-$user->username = $_POST['username'];
-$user->fullname = $_POST['fullname']; 
-$user->email = $_POST['email'];
-$user->password = $_POST['password']; 
-$user->isadmin = $_POST['isadmin'];
-$user->designation = $_POST['designation']; 
-$user->hospital = $_POST['hospital'];
-$user->mobile = $_POST['mobile']; 
-$user->address = $_POST['address'];
-$user->city = $_POST['city']; 
-$user->state = $_POST['state']; 
-$user->country = $_POST['country'];
-$user->isactive = $_POST['isactive'];
-$user->isverify = $_POST['isverify'];
+$user->id = isset($_POST['id']) ? $_POST['id'] : die("user id is required");
+$user->username = isset($_POST['username']);
+$user->fullname = isset($_POST['fullname']); 
+$user->email = isset($_POST['email']);
+$user->password = isset($_POST['password']); 
+$user->isadmin = isset($_POST['isadmin']);
+$user->designation = isset($_POST['designation']); 
+$user->hospital = isset($_POST['hospital']);
+$user->mobile = isset($_POST['mobile']); 
+$user->address = isset($_POST['address']);
+$user->city = isset($_POST['city']); 
+$user->state = isset($_POST['state']); 
+$user->country = isset($_POST['country']);
+$user->isactive = isset($_POST['isactive']);
+$user->isverify = isset($_POST['isverify']);
 
-if($user->updateUser()()){
+if($user->updateUser()){
     $user_arr=array(
         "status" => true,
         "message" => "User Updated Successfully!",
