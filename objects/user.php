@@ -2,7 +2,7 @@
 class User{
  
     private $conn;
-    private $table_name = "users";
+    private $table_name = "users_modal";
  
     public $id;
     public $username;
