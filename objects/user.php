@@ -31,6 +31,10 @@ class User{
             return false;
         }
 
+        if(!$this->isTableExists() || $this->isTableExists() == false){
+            return false;
+        }
+
         $query = "INSERT INTO " . $this->table_name . " SET username=:username, fullname=:fullname, email=:email, password=:password, isadmin=:isadmin, designation=:designation, hospital=:hospital, mobile=:mobile, address=:address, city=:city, state=:state, country=:country, isactive=:isactive, createdat=:createdat, isverify=:isverify";
         
         $stmt = $this->conn->prepare($query);
@@ -194,6 +198,8 @@ class User{
     public function isTableExists(){
 
         $query = "SHOW TABLES";
+
+        $flag = 1;
  
         $stmt = $this->conn->prepare($query);
  
@@ -209,14 +215,17 @@ class User{
         }
 
         if($flag == 0){
-            
+            return true;
         }else{
-            
+            if($this->createTableUser()){
+                return true;
+            }
+            return false;
         }
 
     }
 
-    public function cretaeTableUser(){
+    public function createTableUser(){
 
         try{
             $query = "CREATE TABLE $this->table_name (
