@@ -11,7 +11,7 @@ $user = new User($db);
 
 $user->id = isset($_GET['id']) ? $_GET['id'] : die("user id is required");
 
-if($user->delete()){
+if($user->deleteUser()){
     
     $user_arr=array(
         "status" => true,
