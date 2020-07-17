@@ -93,7 +93,8 @@ class User{
     }
     
     function isUserAlreadyExist(){
-        $query = "SELECT * FROM " . $this->table_name . " WHERE email = $this->email or mobile = $this->mobile";
+
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = '$this->email' or mobile = '$this->mobile'";
     
         $stmt = $this->conn->prepare($query);
     
@@ -138,7 +139,7 @@ class User{
 
     public function updateUser(){
         
-        $query = "UPDATE ". $this->table_name ." SET username=:username, fullname=:fullname, email=:email, password=:password, isadmin=:isadmin, designation=:designation, hospital=:hospital, mobile=:mobile, address=:address, city=:city, state=:state, country=:country, isactive=:isactive, isverify=:isverify WHERE id = :id";
+        $query = "UPDATE ". $this->table_name ." SET username=:username, fullname=:fullname, email=:email, password=:password, isadmin=:isadmin, designation=:designation, hospital=:hospital, mobile=:mobile, address=:address, city=:city, state=:state, country=:country WHERE id = :id";
     
         $stmt = $this->conn->prepare($query);
     
@@ -170,8 +171,8 @@ class User{
         $stmt->bindParam(":city", $this->city);
         $stmt->bindParam(":state", $this->state);
         $stmt->bindParam(":country", $this->country);
-        $stmt->bindParam(":isactive", $this->isactive);
-        $stmt->bindParam(":isverify", $this->isverify);
+        // $stmt->bindParam(":isactive", $this->isactive);
+        // $stmt->bindParam(":isverify", $this->isverify);
         $stmt->bindParam(":id", $this->id);
     
         if($stmt->execute()){
@@ -265,7 +266,7 @@ class User{
 
         $this->email=htmlspecialchars(strip_tags($this->email));
 
-        $query = "SELECT * FROM " . $this->table_name . " WHERE email = $this->email";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = '$this->email'";
     
         $stmt = $this->conn->prepare($query);
     
@@ -273,7 +274,7 @@ class User{
 
         if($stmt->rowCount() > 0){
 
-            $query = "UPDATE ". $this->table_name ." SET password = 'Smart@1234' WHERE email = $this->email";
+            $query = "UPDATE ". $this->table_name ." SET password = 'Smart@1234' WHERE email = '$this->email'";
 
             $stmt = $this->conn->prepare($query);
 

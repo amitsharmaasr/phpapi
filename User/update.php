@@ -9,20 +9,20 @@ $db = $database->getConnection();
 $user = new User($db);
 
 $user->id = isset($_POST['id']) ? $_POST['id'] : die("user id is required");
-$user->username = isset($_POST['username']);
-$user->fullname = isset($_POST['fullname']); 
-$user->email = isset($_POST['email']);
-$user->password = isset($_POST['password']); 
-$user->isadmin = isset($_POST['isadmin']);
-$user->designation = isset($_POST['designation']); 
-$user->hospital = isset($_POST['hospital']);
-$user->mobile = isset($_POST['mobile']); 
-$user->address = isset($_POST['address']);
-$user->city = isset($_POST['city']); 
-$user->state = isset($_POST['state']); 
-$user->country = isset($_POST['country']);
-$user->isactive = isset($_POST['isactive']);
-$user->isverify = isset($_POST['isverify']);
+$user->username = isset($_POST['username']) ? $_POST['username'] : die("username is required");
+$user->fullname = isset($_POST['fullname']) ? $_POST['fullname'] : die("fullname is required");
+$user->email = isset($_POST['email']) ? $_POST['email'] : die("email is required");
+$user->password = isset($_POST['password']) ? $_POST['password'] : die("password is required");
+$user->isadmin = isset($_POST['isadmin']) ? $_POST['isadmin'] : 0;
+$user->designation = isset($_POST['designation']) ? $_POST['designation'] : die("designation is required");
+$user->hospital = isset($_POST['hospital']) ? $_POST['hospital'] : die("hospital is required");
+$user->mobile = isset($_POST['mobile']) ? $_POST['mobile'] : die("mobile is required");
+$user->address = isset($_POST['address']) ? $_POST['address'] : die("address is required");
+$user->city = isset($_POST['city']) ? $_POST['city'] : die("city is required");
+$user->state = isset($_POST['state']) ? $_POST['state'] : die("state is required");
+$user->country = isset($_POST['country']) ? $_POST['country'] : die("Country is required");
+// $user->isactive = isset($_POST['isactive']);
+// $user->isverify = isset($_POST['isverify']);
 
 if($user->updateUser()){
     $user_arr=array(
