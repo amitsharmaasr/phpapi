@@ -27,15 +27,15 @@ class User{
     
     function signup(){
 
-        if($this->isAlreadyExist()){
-            return false;
-        }
-
         if(!$this->isTableExists() || $this->isTableExists() == false){
             return false;
         }
 
-        $query = "INSERT INTO " . $this->table_name . " SET username=:username, fullname=:fullname, email=:email, password=:password, isadmin=:isadmin, designation=:designation, hospital=:hospital, mobile=:mobile, address=:address, city=:city, state=:state, country=:country, isactive=:isactive, createdat=:createdat, isverify=:isverify";
+        if($this->isAlreadyExist()){
+            return false;
+        }
+
+        $query = "INSERT INTO " . $this->table_name . " (username, fullname, email, password, isadmin, designation, hospital, mobile, address, city, state, country) values (:username, :fullname, :email, :password, :isadmin, :designation, :hospital, :mobile, :address, :city, :state, :country)";
         
         $stmt = $this->conn->prepare($query);
     
@@ -51,9 +51,9 @@ class User{
         $this->city=htmlspecialchars(strip_tags($this->city));
         $this->state=htmlspecialchars(strip_tags($this->state));
         $this->country=htmlspecialchars(strip_tags($this->country));
-        $this->isactive=htmlspecialchars(strip_tags($this->isactive));
-        $this->createdat=htmlspecialchars(strip_tags($this->createdat));
-        $this->isverify=htmlspecialchars(strip_tags($this->isverify));
+        // $this->isactive=htmlspecialchars(strip_tags($this->isactive));
+        // $this->createdat=htmlspecialchars(strip_tags($this->createdat));
+        // $this->isverify=htmlspecialchars(strip_tags($this->isverify));
     
         $stmt->bindParam(":username", $this->username);
         $stmt->bindParam(":fullname", $this->fullname);
@@ -67,9 +67,9 @@ class User{
         $stmt->bindParam(":city", $this->city);
         $stmt->bindParam(":state", $this->state);
         $stmt->bindParam(":country", $this->country);
-        $stmt->bindParam(":isactive", $this->isactive);
-        $stmt->bindParam(":createdat", $this->createdat);
-        $stmt->bindParam(":isverify", $this->isverify);
+        // $stmt->bindParam(":isactive", $this->isactive);
+        // $stmt->bindParam(":createdat", $this->createdat);
+        // $stmt->bindParam(":isverify", $this->isverify);
     
         if($stmt->execute()){
             $this->id = $this->conn->lastInsertId();
@@ -197,7 +197,7 @@ class User{
 
     public function isTableExists(){
 
-        $query = "SHOW TABLES";
+        $query = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'";
 
         $flag = 1;
  
@@ -229,12 +229,12 @@ class User{
 
         try{
             $query = "CREATE TABLE $this->table_name (
-                id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                id serial PRIMARY KEY,
                 username VARCHAR(60),
                 fullname VARCHAR(60),
                 email VARCHAR(50),
                 password VARCHAR(60),
-                isadmin inetger default 0,
+                isadmin integer default 0,
                 designation VARCHAR(50),
                 hospital VARCHAR(60),
                 mobile VARCHAR(60),
@@ -242,10 +242,10 @@ class User{
                 city VARCHAR(60),
                 state VARCHAR(60),
                 country VARCHAR(50),
-                isactive integer default 1;
-                isverify integer default 0;
-                createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-                )";
+                isactive integer default 1,
+                isverify integer default 0,
+                createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+                );";
               
                 $stmt = $this->conn->prepare($query);
                 

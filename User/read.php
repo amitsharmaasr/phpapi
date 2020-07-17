@@ -20,12 +20,22 @@ if($stmt->rowCount() > 0){
         extract($row);
 
         $e = array(
-            "user_id" => $user_id,
-            "user_name" => $user_name,
-            "cust_id" => $cust_id,
-            "status" => $status,
-            "user_type" => $user_type,
-            "business_id" => $business_id
+            "id" => $id,
+            "username" => $username,
+            "fullname" => $fullname,
+            "email" => $email,
+            "password" => $password,
+            "isadmin" => $isadmin,
+            "designation" => $designation,
+            "hospital" => $hospital,
+            "mobile" => $mobile,
+            "address" => $address,
+            "city" => $city,
+            "state" => $state,
+            "country" => $country,
+            "isactive" => $isactive,
+            "createdat" => $createdat,
+            "isverify" => $isverify,
         );
 
         array_push($userInfo["body"], $e);

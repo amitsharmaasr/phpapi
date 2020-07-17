@@ -20,9 +20,9 @@ $user->address = $_POST['address'] ? $_POST['address'] : die("address is require
 $user->city = $_POST['city'] ? $_POST['city'] : die("city is required");
 $user->state = $_POST['state'] ? $_POST['state'] : die("state is required");
 $user->country = $_POST['country'] ? $_POST['country'] : die("Country is required");
-$user->isactive = $_POST['isactive']? $_POST['isactive'] : 1;
-$user->isverify = $_POST['isverify']? $_POST['isverify'] : 0;
-$user->created = date('Y-m-d H:i:s');
+// $user->isactive = $_POST['isactive']? $_POST['isactive'] : 1;
+// $user->isverify = $_POST['isverify']? $_POST['isverify'] : 0;
+// $user->created = date('Y-m-d H:i:s');
 
 if($user->signup()){
     $user_arr=array(
