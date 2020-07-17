@@ -28,8 +28,7 @@ if($user->signup()){
     $user_arr=array(
         "status" => true,
         "message" => "Successfully Signup!",
-        "id" => $user->id,
-        "username" => $user->username
+        "id" => $user->id
     );
 }
 else{

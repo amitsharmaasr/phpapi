@@ -32,7 +32,7 @@ class User{
             return false;
         }
 
-        if($this->isAlreadyExist()){
+        if($this->isUserAlreadyExist()){
             return false;
         }
 
@@ -82,7 +82,7 @@ class User{
     
     function login(){
 
-        $query = "SELECT * FROM " . $this->table_name . " WHERE username='".$this->username."' AND password='".$this->password."'";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email='".$this->email."' AND password='".$this->password."'";
 
         $stmt = $this->conn->prepare($query);
 
@@ -92,8 +92,8 @@ class User{
 
     }
     
-    function isAlreadyExist(){
-        $query = "SELECT * FROM " . $this->table_name . " WHERE username='".$this->username."'";
+    function isUserAlreadyExist(){
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = $this->email or mobile = $this->mobile";
     
         $stmt = $this->conn->prepare($query);
     
@@ -259,6 +259,45 @@ class User{
             return false;
         }
         
+    }
+
+    public function forgotPassword(){
+
+        $this->email=htmlspecialchars(strip_tags($this->email));
+
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = $this->email";
+    
+        $stmt = $this->conn->prepare($query);
+    
+        $stmt->execute();
+
+        if($stmt->rowCount() > 0){
+
+            $query = "UPDATE ". $this->table_name ." SET password = 'Smart@1234' WHERE email = $this->email";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                return json_encode(array(
+                    "status" => true,
+                    "message" => "password successfully updated!",
+                    "password" => "Smart@1234"
+                ));
+            }
+
+            return json_encode(array(
+                "status" => false,
+                "message" => "password could not be updated!",
+            ));;
+
+        }else{
+            return json_encode(array(
+                "status" => false,
+                "message" => "email doesn't exists!",
+            ));
+        }
+
+
     }
 }
 
