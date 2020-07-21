@@ -279,23 +279,21 @@ class User{
             $stmt = $this->conn->prepare($query);
 
             if($stmt->execute()){
-                return json_encode(array(
-                    "status" => true,
-                    "message" => "password successfully updated!",
-                    "password" => "Smart@1234"
-                ));
+                return true;
+                // return json_encode(array(
+                //     "status" => true,
+                //     "message" => "password successfully updated!",
+                //     "password" => "Smart@1234"
+                // ));
             }
-
-            return json_encode(array(
-                "status" => false,
-                "message" => "password could not be updated!",
-            ));;
+                return false;
+            // return json_encode(array(
+            //     "status" => false,
+            //     "message" => "password could not be updated!",
+            // ));;
 
         }else{
-            return json_encode(array(
-                "status" => false,
-                "message" => "email doesn't exists!",
-            ));
+           return false;
         }
 
 

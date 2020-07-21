@@ -1,10 +1,10 @@
 <?php
 class Database{
  
-    private $host = "172.17.98.54";
-    private $db_name = "dev_iot_prod ";
-    private $username = "dev_uapp";
-    private $password = "teUC9M@T!DJvd";
+    private $host = "127.0.0.1";
+    private $db_name = "hospital; ";
+    private $username = "postgres";
+    private $password = "amit";
     public $conn;
 
     public function __construct(){
