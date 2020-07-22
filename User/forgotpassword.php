@@ -6,6 +6,8 @@ use PHPMailer\PHPMailer\SMTP;
 
 include_once '../config/database.php';
 include_once '../objects/user.php';
+include_once '../config/cors.php';
+
 require '../PHPMailer/src/PHPMailer.php';
 require '../PHPMailer/src/SMTP.php';
 require '../PHPMailer/src/Exception.php';

@@ -2,6 +2,7 @@
 
 include_once '../config/database.php';
 include_once '../objects/user.php';
+include_once '../config/cors.php';
  
 $database = new Database();
 $db = $database->getConnection();
