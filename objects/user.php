@@ -298,5 +298,30 @@ class User{
 
 
     }
+
+    public function verifyUser(){
+
+        $this->id=htmlspecialchars(strip_tags($this->idn_to_utf8));
+
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = '$this->id'";
+    
+        $stmt = $this->conn->prepare($query);
+    
+        $stmt->execute();
+
+        if($stmt->rowCount() > 0){
+
+            $query = "UPDATE ". $this->table_name ." SET isverify = 1 WHERE id = '$this->id'";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                return true;
+            }
+                return false;
+        }else{
+           return false;
+        }
+    }
 }
 

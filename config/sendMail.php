@@ -8,10 +8,11 @@ require '../PHPMailer/src/PHPMailer.php';
 require '../PHPMailer/src/SMTP.php';
 require '../PHPMailer/src/Exception.php';
 
-class Database{
+class SendMail{
  
     private $username = "postgres";
     private $password = "amit";
+
     public  $to;
     public  $subject;
     public  $body;
@@ -21,7 +22,7 @@ class Database{
         error_reporting(E_ALL);
     }
 
-    public function sendMail(){
+    public function send(){
 
         $mail = new PHPMailer(true);
 
@@ -56,11 +57,12 @@ class Database{
 
             $mail->send();
             
-	    return true;
+	        return true;
         } catch (Exception $e) {
             return false;
         }
     }
+
 }
 
 ?>

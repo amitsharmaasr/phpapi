@@ -3,6 +3,7 @@
 include_once '../config/database.php';
 include_once '../objects/user.php';
 include_once '../config/cors.php';
+include_once '../config/sendMail.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -26,6 +27,15 @@ $user->country = isset($_POST['country']) ? $_POST['country'] : die("Country is 
 // $user->created = date('Y-m-d H:i:s');
 
 if($user->signup()){
+
+    $mail = new SendMail();
+
+    $mail->to = $user->email;
+    $mail->subject = "Verify Email";
+    $mail->body = "Hi, <br> Thanks for Registering with us. Please, <a href='https://".$_SERVER['HTTP_HOST']."/User/verifyuser.php?user_id=$user->id' target='_blank' >click on this link to verify </a>.";
+
+    echo $mail->send();
+
     $user_arr=array(
         "status" => true,
         "message" => "Successfully Signup!",
