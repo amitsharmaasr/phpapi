@@ -2,7 +2,7 @@
 class Database{
  
     private $host = "127.0.0.1";
-    private $db_name = "hospital; ";
+    private $db_name = "hospital";
     private $username = "postgres";
     private $password = "amit";
     public $conn;
