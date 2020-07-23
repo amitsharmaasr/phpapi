@@ -301,7 +301,7 @@ class User{
 
     public function verifyUser(){
 
-        $this->id=htmlspecialchars(strip_tags($this->idn_to_utf8));
+        $this->id=htmlspecialchars(strip_tags($this->id));
 
         $query = "SELECT * FROM " . $this->table_name . " WHERE id = '$this->id'";
     

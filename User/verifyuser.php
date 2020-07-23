@@ -13,7 +13,7 @@ $user->id = isset($_GET['id']) ? $_GET['id'] : die("user id is required");
 
 if($user->verifyUser()){
 
-    header("https://www.google.com/");
+    header("Location: https://www.google.com/");
 
 }
 else{

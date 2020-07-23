@@ -19,7 +19,7 @@ if($user->forgotPassword()){
             $mail->subject = "Password Reset";
             $mail->body = "Hi, this is to inform you that your new password is <b>Smart@1234</b>";
 
-            if($mail->send()()){
+            if($mail->send()){
                 print_r(json_encode(array(
                     "status" => true,
                     "message" => "password updated!",
