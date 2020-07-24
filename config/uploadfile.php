@@ -11,6 +11,10 @@ class UploadFile{
     }
  
     public function uploadFile(){
+
+        if (!file_exists($this->target_dir)) {
+            mkdir($this->target_dir, 0777, true);
+        }
         
             $originalname = $this->file["name"];
             $tempname = $this->file["tmp_name"];
