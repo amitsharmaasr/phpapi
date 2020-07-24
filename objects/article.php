@@ -92,7 +92,7 @@ class Article{
                 fathername VARCHAR(60),
                 residence VARCHAR(50),
                 age integer,
-                article integer,
+                article VARCHAR(150),
                 userid integer,
                 status boolean default true,
                 createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
