@@ -11,9 +11,9 @@ class UploadFile{
  
     public function uploadFile(){
         
-            $originalname = $this->file["article"]["name"];
-            $tempname = $this->file["article"]["tmp_name"];
-            $error = $this->file["article"]["error"];
+            $originalname = $this->file["name"];
+            $tempname = $this->file["tmp_name"];
+            $error = $this->file["error"];
 
             if($error > 0){
                 return array("status" => false);
