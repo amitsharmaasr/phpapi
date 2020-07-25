@@ -23,29 +23,20 @@ $article->userid = isset($_POST['userid']) ? $_POST['userid'] : die("userid is r
 
 $upload->file = isset($_FILES['article']) ? $_FILES['article'] : die("article is required");
 $uploadFile = $upload->uploadFile();
-if($uploadFile['status']){
-
-
-    $article->article = str_replace('/article/save.php/..', '', $uploadFile['url']);
-
+if($uploadFile['success'] ){
+    $article->article = str_replace('article/save.php', 'article', $uploadFile['url']);
 }else{
-    print_r(json_encode(array(
-        "status" => false,
-        "message" => "failed to upload article, please try later!"
-    )));
+    die($uploadFile['msg']);
 }
 
 $upload->file = isset($_FILES['coverletter']) ? $_FILES['coverletter'] : die("title is required");
 $uploadFile = $upload->uploadFile();
-if($uploadFile['status']){
+if($uploadFile['success']){
 
-    $article->coverletter = str_replace('/article/save.php/..', '', $uploadFile['url']);
+    $article->coverletter = str_replace('article/save.php', 'article', $uploadFile['url']);
 
 }else{
-    print_r(json_encode(array(
-        "status" => false,
-        "message" => "failed to upload cover letter, please try later!"
-    )));
+    die($uploadFile['msg']);
 }
 
 if($article->store()){

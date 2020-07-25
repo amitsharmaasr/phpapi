@@ -29,7 +29,7 @@ class Article{
         }
 
         $query = "INSERT INTO " . $this->table_name . " (patientname, fathername, residence, age, article, userid, title, description, coverletter) values (:patientname, :fathername, :residence, :age, :article, :userid, :title, :description, :coverletter)";
-        
+    
         $stmt = $this->conn->prepare($query);
     
         $this->patientname=htmlspecialchars(strip_tags($this->patientname));
@@ -42,18 +42,15 @@ class Article{
         $this->description=htmlspecialchars(strip_tags($this->description));
         $this->coverletter=htmlspecialchars(strip_tags($this->coverletter));
         
-    
-    
         $stmt->bindParam(":patientname", $this->patientname);
         $stmt->bindParam(":fathername", $this->fathername);
         $stmt->bindParam(":residence", $this->residence);
         $stmt->bindParam(":age", $this->age);
         $stmt->bindParam(":article", $this->article);
         $stmt->bindParam(":userid", $this->userid);
-        $stmt->bindParam(":age", $this->title);
-        $stmt->bindParam(":article", $this->description);
-        $stmt->bindParam(":userid", $this->coverletter);
-       
+        $stmt->bindParam(":title", $this->title);
+        $stmt->bindParam(":description", $this->description);
+        $stmt->bindParam(":coverletter", $this->coverletter);
     
         if($stmt->execute()){
             $this->id = $this->conn->lastInsertId();

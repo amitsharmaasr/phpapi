@@ -1,7 +1,7 @@
 <?php
 class UploadFile{
  
-    private $target_dir = "..\\uploads";
+    private $target_dir = "uploads/";
     public $file;
    
     public function __construct(){
@@ -11,43 +11,56 @@ class UploadFile{
     }
  
     public function uploadFile(){
-
-        if (!file_exists($this->target_dir)) {
-            mkdir($this->target_dir, 0777, true);
+         
+        if(!is_dir($this->target_dir)){
+            mkdir($this->target_dir, 0755);
         }
-        
-            $originalname = $this->file["name"];
-            $tempname = $this->file["tmp_name"];
-            $error = $this->file["error"];
 
-            if($error > 0){
-                return array("status" => false);
-            }else {
+        $valid_formats = array("jpg", "png", "gif", "bmp", "jpeg", "GIF", "JPG", "PNG", "doc", "txt", "docx", "pdf", "xls", "xlsx"); 
 
-                $fileName = '/'.date('Y-m-d H:i:s')."-".$originalname;
-                $upload_name = $this->target_dir.strtolower($fileName);
-                $upload_name = preg_replace('/\s+/', '-', $upload_name);
-        
-                $upload_name = str_replace(["config..\\", "/"], ["", "\\"], dirname(__FILE__).$upload_name);
+        $name = date('Y_m_d_H_i_s').'_'.$this->file['name']; 
+    
+        $size = $this->file['size']; 
 
-                if(move_uploaded_file($tempname , $upload_name)) {
-
-                    $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
-                    return array(
-                        "status" => true,
-                        "url" => $actual_link.'/'.$upload_name
-                    );
-                }else{
+        if (strlen($name)) {
+            list($txt, $ext) = explode(".", $name); 
+            if (in_array($ext, $valid_formats)) {
+                if ($size < 2098888) { 
+                    $tmp = $this->file['tmp_name'];
+                    if (move_uploaded_file($tmp, $this->target_dir . $name)) { 
                         return array(
-                            "status" => "false",
-                        
+                            "success" => true,
+                            "url" => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"."/".$this->target_dir . $name
                         );
+                    } else {
+                        return array(
+                            "success" => false,
+                            "msg" => "failed to upload file"
+                        );
+                    }
+                } else {
+                    return array(
+                        "success" => false,
+                        "msg" => "File size max 2 MB"
+                    );
                 }
-
+            } else {
+                return array(
+                    "success" => false,
+                    "msg" => "Invalid file format.."
+                );
             }
-   
+        } else {
+            return array(
+                "success" => false,
+                "msg" => "Please select a file..!"
+            );
+        }
+
     }
+        
+        
+
 
 }
 ?>
