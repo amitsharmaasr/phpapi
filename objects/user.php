@@ -26,7 +26,7 @@ class User{
         ini_set('display_errors', 1);
     }
     
-    function signup(){
+    public function signup(){
 
         if(!$this->isTableExists() || $this->isTableExists() == false){
             return false;
@@ -80,7 +80,7 @@ class User{
 
     }
     
-    function login(){
+    public function login(){
 
         $query = "SELECT * FROM " . $this->table_name . " WHERE email='".$this->email."' AND password='".$this->password."'";
 
@@ -92,7 +92,7 @@ class User{
 
     }
     
-    function isUserAlreadyExist(){
+    public function isUserAlreadyExist(){
 
         $query = "SELECT * FROM " . $this->table_name . " WHERE email = '$this->email' or mobile = '$this->mobile'";
     
@@ -322,6 +322,24 @@ class User{
         }else{
            return false;
         }
+    }
+
+    public function verifyUserID(){
+
+        $this->id=htmlspecialchars(strip_tags($this->id));
+
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = '$this->id'";
+    
+        $stmt = $this->conn->prepare($query);
+    
+        $stmt->execute();
+
+        if($stmt->rowCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
 

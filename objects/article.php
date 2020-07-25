@@ -12,19 +12,23 @@ class Article{
     public $article;
     public $status;
     public $userid;
+    public $title;
+    public $description;
+    public $coverletter;
+    public $publish;
    
     public function __construct($db){
         $this->conn = $db;
         ini_set('display_errors', 1);
     }
     
-    function store(){
+    public function store(){
 
         if(!$this->isTableExists() || $this->isTableExists() == false){
             return false;
         }
 
-        $query = "INSERT INTO " . $this->table_name . " (patientname, fathername, residence, age, article, userid) values (:patientname, :fathername, :residence, :age, :article, :userid)";
+        $query = "INSERT INTO " . $this->table_name . " (patientname, fathername, residence, age, article, userid, title, description, coverletter) values (:patientname, :fathername, :residence, :age, :article, :userid, :title, :description, :coverletter)";
         
         $stmt = $this->conn->prepare($query);
     
@@ -34,6 +38,9 @@ class Article{
         $this->age=htmlspecialchars(strip_tags($this->age));
         $this->article=htmlspecialchars(strip_tags($this->article));
         $this->userid=htmlspecialchars(strip_tags($this->userid));
+        $this->title=htmlspecialchars(strip_tags($this->title));
+        $this->description=htmlspecialchars(strip_tags($this->description));
+        $this->coverletter=htmlspecialchars(strip_tags($this->coverletter));
         
     
     
@@ -43,6 +50,9 @@ class Article{
         $stmt->bindParam(":age", $this->age);
         $stmt->bindParam(":article", $this->article);
         $stmt->bindParam(":userid", $this->userid);
+        $stmt->bindParam(":age", $this->title);
+        $stmt->bindParam(":article", $this->description);
+        $stmt->bindParam(":userid", $this->coverletter);
        
     
         if($stmt->execute()){
@@ -51,6 +61,17 @@ class Article{
         }
         return false;
 
+    }
+
+    public function getArticleCount(){
+
+        $query = "SELECT * FROM " . $this->table_name . " where publish = 1 and status = true and userid != ".$this->userid;
+
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->execute();
+        
+        return $stmt;
     }
     
     public function isTableExists(){
@@ -95,6 +116,10 @@ class Article{
                 article VARCHAR(150),
                 userid integer,
                 status boolean default true,
+                title VARCHAR(150),
+                description VARCHAR(150),
+                coverletter VARCHAR(150),
+                publish integer default 0,
                 createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
                 );";
               

@@ -11,42 +11,54 @@ $db = $database->getConnection();
 $article = new Article($db);
 $upload = new UploadFile();
 
-$_POST = json_decode(file_get_contents('php://input'), true);
+//$_POST = json_decode(file_get_contents('php://input'), true);
 
 $article->patientname = isset($_POST['patientname']) ? $_POST['patientname'] : die("patient name is required");
 $article->fathername = isset($_POST['fathername']) ? $_POST['fathername'] : die("father name is required");
 $article->residence = isset($_POST['residence']) ? $_POST['residence'] : die("residence is required");
 $article->age = isset($_POST['age']) ? $_POST['age'] : die("age is required");
-//$article->article = isset($_POST['isadmin']) ? $_POST['isadmin'] : 0;
+$article->title = isset($_POST['title']) ? $_POST['title'] : die("title is required");
+$article->description = isset($_POST['description']) ? $_POST['description'] : die("description is required");
 $article->userid = isset($_POST['userid']) ? $_POST['userid'] : die("userid is required");
+
 $upload->file = isset($_FILES['article']) ? $_FILES['article'] : die("article is required");
-
-
 $uploadFile = $upload->uploadFile();
-
 if($uploadFile['status']){
+
 
     $article->article = str_replace('/article/save.php/..', '', $uploadFile['url']);
 
-    if($article->store()){
+}else{
+    print_r(json_encode(array(
+        "status" => false,
+        "message" => "failed to upload article, please try later!"
+    )));
+}
+
+$upload->file = isset($_FILES['coverletter']) ? $_FILES['coverletter'] : die("title is required");
+$uploadFile = $upload->uploadFile();
+if($uploadFile['status']){
+
+    $article->coverletter = str_replace('/article/save.php/..', '', $uploadFile['url']);
+
+}else{
+    print_r(json_encode(array(
+        "status" => false,
+        "message" => "failed to upload cover letter, please try later!"
+    )));
+}
+
+if($article->store()){
         print_r(json_encode(array(
             "status" => true,
             "message" => "uploaded successful",
             "article_id" => $article->id
         )));
-    }else{
+}else{
         print_r(json_encode(array(
             "status" => false,
             "message" => "error while uploading article information!"
         )));
-    }
-    
-}
-else{
-    print_r(json_encode(array(
-        "status" => false,
-        "message" => "failed to upload article, please try later!"
-    )));
 }
 
 ?>

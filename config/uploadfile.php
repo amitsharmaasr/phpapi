@@ -1,7 +1,7 @@
 <?php
 class UploadFile{
  
-    private $target_dir = "../uploads";
+    private $target_dir = "..\\uploads";
     public $file;
    
     public function __construct(){
@@ -28,6 +28,8 @@ class UploadFile{
                 $upload_name = $this->target_dir.strtolower($fileName);
                 $upload_name = preg_replace('/\s+/', '-', $upload_name);
         
+                $upload_name = str_replace(["config..\\", "/"], ["", "\\"], dirname(__FILE__).$upload_name);
+
                 if(move_uploaded_file($tempname , $upload_name)) {
 
                     $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
