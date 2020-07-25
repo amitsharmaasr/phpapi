@@ -11,6 +11,8 @@ $db = $database->getConnection();
 $article = new Article($db);
 $upload = new UploadFile();
 
+$_POST = json_decode(file_get_contents('php://input'), true);
+
 $article->patientname = isset($_POST['patientname']) ? $_POST['patientname'] : die("patient name is required");
 $article->fathername = isset($_POST['fathername']) ? $_POST['fathername'] : die("father name is required");
 $article->residence = isset($_POST['residence']) ? $_POST['residence'] : die("residence is required");

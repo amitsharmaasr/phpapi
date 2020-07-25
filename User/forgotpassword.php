@@ -14,6 +14,8 @@ require '../PHPMailer/src/Exception.php';
 
 $database = new Database();
 $db = $database->getConnection();
+
+$_GET = json_decode(file_get_contents('php://input'), true);
  
 $user = new User($db);
 

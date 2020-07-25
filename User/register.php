@@ -8,6 +8,8 @@ include_once '../config/sendMail.php';
 $database = new Database();
 $db = $database->getConnection();
 
+$_POST = json_decode(file_get_contents('php://input'), true);
+
 $user = new User($db);
 
 $user->username = isset($_POST['username']) ? $_POST['username'] : die("username is required");

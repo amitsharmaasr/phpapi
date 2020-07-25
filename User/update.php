@@ -7,6 +7,8 @@ include_once '../config/cors.php';
 $database = new Database();
 $db = $database->getConnection();
 
+$_POST = json_decode(file_get_contents('php://input'), true);
+
 $user = new User($db);
 
 $user->id = isset($_POST['id']) ? $_POST['id'] : die("user id is required");

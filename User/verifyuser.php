@@ -9,6 +9,8 @@ $db = $database->getConnection();
 
 $user = new User($db);
 
+$_GET = json_decode(file_get_contents('php://input'), true);
+
 $user->id = isset($_GET['id']) ? $_GET['id'] : die("user id is required");
 
 if($user->verifyUser()){
